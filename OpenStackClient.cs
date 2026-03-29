@@ -188,7 +188,7 @@ public class OpenStackClient
     }
 
     //TẠO MÁY ẢO & WEB SERVER
-    public async Task<string> CreateInstanceWithWebAsync(string vmName, string imageId, string flavorId, string networkId)
+    public async Task<string> CreateInstanceWithWebAsync(string vmName, string imageId, string flavorId, string networkId, int volumeSize = 4)
     {
         SetAuthHeader();
 
@@ -197,7 +197,7 @@ public class OpenStackClient
                             apt-get update
                             apt-get install -y apache2
                             IP=$(hostname -I | awk '{print $1}')
-                            echo ""<h1>Nhom XX - Dia chi IP cua toi la: $IP</h1>"" > /var/www/html/index.html
+                            echo ""<h1>Nhom 04 - Dia chi IP cua toi la: $IP</h1>"" > /var/www/html/index.html
                             systemctl restart apache2";
 
         string userDataBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(bashScript));
@@ -211,7 +211,18 @@ public class OpenStackClient
                 flavorRef = flavorId,
                 networks = new[] { new { uuid = networkId } },
                 user_data = userDataBase64,
-                security_groups = new[] { new { name = "default" } } // Đảm bảo dùng Security Group mặc định
+                security_groups = new[] { new { name = "default" } }, // Đảm bảo dùng Security Group mặc định
+                block_device_mapping_v2 = new[]
+                {
+                    new
+                    {
+                        uuid = imageId, // ID của Image (giống imageId)
+                        source_type = "image",
+                        destination_type = "volume",
+                        boot_index = 0,
+                        volume_size = volumeSize.ToString() // Kích thước Volume (GB)
+                    }
+                }
             }
         };
 
@@ -245,10 +256,10 @@ public class OpenStackClient
 
         var payload = new
         {
-            member = new
+            member = new 
             {
-                address = vmIpAddress, // IP nội bộ của máy ảo vừa tạo
-                protocol_port = 80,    // Port chạy Web
+                address = vmIpAddress,      // IP nội bộ của máy ảo vừa tạo
+                protocol_port = 80,         // Port chạy Web
                 subnet_id = subnetId,
                 admin_state_up = true
             }
@@ -296,6 +307,179 @@ public class OpenStackClient
         SetAuthHeader();
         var response = await _httpClient.GetAsync("https://cloud-network.uitiot.vn/v2.0/subnets");
         return await response.Content.ReadAsStringAsync();
+    }
+
+    // Hàm lấy Port Interface của Instance
+    public async Task<string> GetPortInterfaceAsync(string serverId)
+    {
+        SetAuthHeader();
+        var response = await _httpClient.GetAsync($"https://cloud-compute.uitiot.vn/v2.1/servers/{serverId}/os-interface");
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    // ===== LOAD BALANCER METHODS =====
+
+    // Hàm tạo LoadBalancer
+    public async Task<string> CreateLoadBalancerAsync(string lbName, string vipSubnetId)
+    {
+        SetAuthHeader();
+
+        var payload = new
+        {
+            loadbalancer = new
+            {
+                name = lbName,
+                vip_subnet_id = vipSubnetId,
+                admin_state_up = true
+            }
+        };
+
+        var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync("https://cloud-loadbalancer.uitiot.vn/v2.0/lbaas/loadbalancers", content);
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    // Hàm tạo Listener
+    public async Task<string> CreateListenerAsync(string lbId, string name, string protocol, int port)
+    {
+        SetAuthHeader();
+
+        var payload = new
+        {
+            listener = new
+            {
+                name = name,
+                loadbalancer_id = lbId,
+                protocol = protocol.ToUpper(), // HTTP, HTTPS, TCP, UDP
+                protocol_port = port,
+                admin_state_up = true
+            }
+        };
+
+        var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync("https://cloud-loadbalancer.uitiot.vn/v2.0/lbaas/listeners", content);
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    // Hàm tạo Pool (nhóm backend servers)
+    public async Task<string> CreatePoolAsync(string name, string listenerId, string protocol)
+    {
+        SetAuthHeader();
+
+        var payload = new
+        {
+            pool = new
+            {
+                name = name,
+                listener_id = listenerId,
+                protocol = protocol.ToUpper(),
+                lb_algorithm = "ROUND_ROBIN", // Cân bằng tải kiểu Round Robin
+                admin_state_up = true
+            }
+        };
+
+        var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync("https://cloud-loadbalancer.uitiot.vn/v2.0/lbaas/pools", content);
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    // Hàm tạo Health Monitor
+    public async Task<string> CreateHealthMonitorAsync(string poolId, string type = "HTTP", int delay = 5, int timeout = 5, int maxRetries = 3)
+    {
+        SetAuthHeader();
+
+        var payload = new
+        {
+            healthmonitor = new
+            {
+                pool_id = poolId,
+                type = type,
+                delay = delay,          // Thời gian chờ giữa các lần kiểm tra (giây)
+                timeout = timeout,      // Timeout cho mỗi lần kiểm tra (giây)
+                max_retries = maxRetries, // Số lần retry trước khi coi là down
+                admin_state_up = true
+            }
+        };
+
+        var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync("https://cloud-loadbalancer.uitiot.vn/v2.0/lbaas/healthmonitors", content);
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    // Hàm lấy danh sách LoadBalancer
+    public async Task<string> GetLoadBalancersAsync()
+    {
+        SetAuthHeader();
+        var response = await _httpClient.GetAsync("https://cloud-loadbalancer.uitiot.vn/v2.0/lbaas/loadbalancers");
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    // Hàm lấy chi tiết 1 LoadBalancer
+    public async Task<string> GetLoadBalancerDetailsAsync(string lbId)
+    {
+        SetAuthHeader();
+        var response = await _httpClient.GetAsync($"https://cloud-loadbalancer.uitiot.vn/v2.0/lbaas/loadbalancers/{lbId}");
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    // Hàm xóa LoadBalancer
+    public async Task<string> DeleteLoadBalancerAsync(string lbId)
+    {
+        SetAuthHeader();
+        var response = await _httpClient.DeleteAsync($"https://cloud-loadbalancer.uitiot.vn/v2.0/lbaas/loadbalancers/{lbId}");
+        return response.IsSuccessStatusCode ? "Xóa LoadBalancer thành công" : "Lỗi xóa LoadBalancer";
+    }
+
+    // Hàm xóa Listener
+    public async Task<string> DeleteListenerAsync(string listenerId)
+    {
+        SetAuthHeader();
+        var response = await _httpClient.DeleteAsync($"https://cloud-loadbalancer.uitiot.vn/v2.0/lbaas/listeners/{listenerId}");
+        return response.IsSuccessStatusCode ? "Xóa Listener thành công" : "Lỗi xóa Listener";
+    }
+
+    // Hàm xóa Pool
+    public async Task<string> DeletePoolAsync(string poolId)
+    {
+        SetAuthHeader();
+        var response = await _httpClient.DeleteAsync($"https://cloud-loadbalancer.uitiot.vn/v2.0/lbaas/pools/{poolId}");
+        return response.IsSuccessStatusCode ? "Xóa Pool thành công" : "Lỗi xóa Pool";
+    }
+
+    // Hàm gắn Floating IP cho LoadBalancer
+    public async Task<string> AssignFloatingIpToLoadBalancerAsync(string lbId, string extNetworkId)
+    {
+        SetAuthHeader();
+
+        // Lấy VIP Port ID từ LoadBalancer details
+        var lbDetails = await GetLoadBalancerDetailsAsync(lbId);
+        JObject lbJson = JObject.Parse(lbDetails);
+        string vipPortId = lbJson["loadbalancer"]["vip_port_id"].ToString();
+
+        // Gắn Floating IP vào VIP Port
+        var payload = new
+        {
+            floatingip = new
+            {
+                floating_network_id = extNetworkId,
+                port_id = vipPortId
+            }
+        };
+
+        var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+        var response = await _httpClient.PostAsync("https://cloud-network.uitiot.vn/v2.0/floatingips", content);
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    // Hàm lấy Network ID từ Subnet ID
+    public async Task<string> GetNetworkIdFromSubnetAsync(string subnetId)
+    {
+        SetAuthHeader();
+        var response = await _httpClient.GetAsync($"https://cloud-network.uitiot.vn/v2.0/subnets/{subnetId}");
+        string result = await response.Content.ReadAsStringAsync();
+
+        JObject json = JObject.Parse(result);
+        return json["subnet"]["network_id"].ToString();
     }
 
 }

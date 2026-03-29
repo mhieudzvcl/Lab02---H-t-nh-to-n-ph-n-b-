@@ -122,7 +122,7 @@ namespace OpenStackManager
 
                 // Dùng ID đó để tạo Subnet
                 rtbLog.Text += "2. Đang tạo Subnet cho Network này...\r\n";
-                // CIDR là dải IP, ví dụ 192.168.100.0/24
+                // CIDR là dải IP - 192.168.100.0/24
                 string subResult = await osClient.CreateSubnetAsync(networkId, "nhom04_subnet", "192.168.100.0/24");
 
                 rtbLog.Text += "=> Tạo Subnet thành công!\r\n";
@@ -155,11 +155,11 @@ namespace OpenStackManager
             if (string.IsNullOrEmpty(osClient.AuthToken)) { MessageBox.Show("Vui lòng đăng nhập trước!"); return; }
 
             string routerId = txtTargetId.Text.Trim();
-            string subnetId = "aa9667d2-ca06-4e8b-b9b2-31d78ae05a03"; //ae đừng xóa nhầm cái subnet của nhóm nhé nhom4_net (192.168.1.0/24)
+            string subnetId = txtidInterface.Text.Trim(); //ae đừng xóa nhầm cái subnet của nhóm nhé nhom4_net (192.168.1.0/24)
 
             if (string.IsNullOrEmpty(routerId))
             {
-                MessageBox.Show("Vui lòng nhập ID của Router vào ô Target ID trước khi cắm dây!", "Thiếu thông tin");
+                MessageBox.Show("Vui lòng nhập ID của Router vào ô Target ID và ID Subnet vào ô ID Interface!", "Thiếu thông tin");
                 return;
             }
 
@@ -185,11 +185,19 @@ namespace OpenStackManager
 
             rtbLog.Text += "Đang gửi lệnh tạo máy ảo. Quá trình này có thể mất 1-2 phút...\r\n";
 
+            // Lấy Volume Size từ TextBox (default 4GB)
+            int volumeSize = 4;
+            if (!string.IsNullOrEmpty(txtVolumeSize.Text) && int.TryParse(txtVolumeSize.Text, out int size))
+            {
+                volumeSize = size;
+            }
+
             string result = await osClient.CreateInstanceWithWebAsync(
                 txtVmName.Text,
                 txtImageId.Text,
                 txtFlavorId.Text,
-                txtNetId.Text
+                txtNetId.Text,
+                volumeSize
             );
 
             rtbLog.Text += "Kết quả khởi tạo:\r\n" + result + "\r\n";
@@ -203,10 +211,14 @@ namespace OpenStackManager
                 MessageBox.Show("Vui lòng đăng nhập trước!"); return;
             }
 
-            // Giả sử bạn vừa tạo xong máy ảo số 2 (nhomXX_vm_2) và lấy được IP nội bộ của nó
-            // (Trong bài thực hành, bạn có thể nhập tay IP này vào một ô TextBox cho nhanh)
-            string newVmIp = "192.168.100.102"; // Thay bằng TextBox chứa IP máy ảo mới
-            string subnetId = "ID_SUBNET_CUA_BAN"; // Thay bằng TextBox chứa ID Subnet
+            string newVmIp = txtTargetId.Text.Trim(); // TextBox chứa IP máy ảo mới
+            string subnetId = txtNetId.Text.Trim(); // TextBox chứa ID Subnet
+
+            if (string.IsNullOrEmpty(newVmIp) || string.IsNullOrEmpty(subnetId))
+            {
+                MessageBox.Show("Vui lòng nhập IP của máy ảo mới vào ô Target ID và ID Subnet vào ô Net ID!", "Thiếu thông tin");
+                return;
+            }
 
             rtbLog.Text += $"Đang đưa VM ({newVmIp}) vào Load Balancer...\r\n";
 
@@ -385,5 +397,293 @@ namespace OpenStackManager
             }
             catch { rtbLog.Text += result + "\r\n"; }
         }
+
+        private void rtbLog_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private async void butgetPortPC_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(osClient.AuthToken)) { MessageBox.Show("Vui lòng đăng nhập trước!"); return; }
+            if (string.IsNullOrEmpty(txtTargetId.Text)) { MessageBox.Show("Vui lòng nhập ID của Instance vào ô Target ID!"); return; }
+
+            rtbLog.Text = "Đang lấy Port Interface của Instance...\r\n";
+            string result = await osClient.GetPortInterfaceAsync(txtTargetId.Text);
+
+            try
+            {
+                JObject json = JObject.Parse(result);
+                var interfaces = json["interfaceAttachments"];
+                rtbLog.Text = "[PORT INTERFACE CỦA INSTANCE]\r\n";
+                int i = 1;
+                foreach (var iface in interfaces)
+                {
+                    rtbLog.Text += $"{i}. Port ID: {iface["port_id"]}\r\n";
+                    rtbLog.Text += $"   Mac Address: {iface["mac_addr"]}\r\n";
+                    if (iface["fixed_ips"].HasValues)
+                    {
+                        rtbLog.Text += $"   Fixed IPs:\r\n";
+                        foreach (var ip in iface["fixed_ips"])
+                        {
+                            rtbLog.Text += $"      - IP: {ip["ip_address"]} | Subnet ID: {ip["subnet_id"]}\r\n";
+                        }
+                    }
+                    rtbLog.Text += "--------------------------------------\r\n";
+                    i++;
+                }
+            }
+            catch (Exception ex)
+            {
+                rtbLog.Text += "Lỗi lấy Port Interface: " + ex.Message + "\r\n";
+                rtbLog.Text += "Response: " + result + "\r\n";
+            }
+        }
+
+        private async void btnCreateLB_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(osClient.AuthToken)) { MessageBox.Show("Vui lòng đăng nhập trước!"); return; }
+            if (string.IsNullOrEmpty(txtLBName.Text)) { MessageBox.Show("Vui lòng nhập tên LoadBalancer!"); return; }
+            if (string.IsNullOrEmpty(txtLBSubnetId.Text)) { MessageBox.Show("Vui lòng nhập Subnet ID!"); return; }
+
+            rtbLog.Text = "Đang tạo LoadBalancer...\r\n";
+
+            try
+            {
+                string result = await osClient.CreateLoadBalancerAsync(txtLBName.Text, txtLBSubnetId.Text);
+                rtbLog.Text += "Response: " + result + "\r\n";
+
+                JObject json = JObject.Parse(result);
+                if (json["loadbalancer"] != null)
+                {
+                    string lbId = json["loadbalancer"]["id"].ToString();
+                    rtbLog.Text += $"=> Tạo LoadBalancer thành công! ID: {lbId}\r\n";
+                }
+                else
+                {
+                    rtbLog.Text += "Lỗi: Response không chứa loadbalancer\r\n";
+                }
+            }
+            catch (Exception ex)
+            {
+                rtbLog.Text += "Lỗi tạo LoadBalancer: " + ex.Message + "\r\n";
+            }
+        }
+
+        private async void btnCreateListener_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(osClient.AuthToken)) { MessageBox.Show("Vui lòng đăng nhập trước!"); return; }
+            if (string.IsNullOrEmpty(txtLBId.Text)) { MessageBox.Show("Vui lòng nhập ID LoadBalancer!"); return; }
+            if (string.IsNullOrEmpty(txtListenerName.Text)) { MessageBox.Show("Vui lòng nhập tên Listener!"); return; }
+            if (string.IsNullOrEmpty(txtListenerProtocol.Text)) { MessageBox.Show("Vui lòng nhập Protocol!"); return; }
+            if (string.IsNullOrEmpty(txtListenerPort.Text) || !int.TryParse(txtListenerPort.Text, out int port)) { MessageBox.Show("Vui lòng nhập Port hợp lệ!"); return; }
+
+            rtbLog.Text = "Đang tạo Listener...\r\n";
+
+            try
+            {
+                string result = await osClient.CreateListenerAsync(txtLBId.Text, txtListenerName.Text, txtListenerProtocol.Text, port);
+                rtbLog.Text += "Response: " + result + "\r\n";
+
+                JObject json = JObject.Parse(result);
+                if (json["listener"] != null)
+                {
+                    string listenerId = json["listener"]["id"].ToString();
+                    rtbLog.Text += $"=> Tạo Listener thành công! ID: {listenerId}\r\n";
+                }
+                else
+                {
+                    rtbLog.Text += "Lỗi: Response không chứa listener\r\n";
+                }
+            }
+            catch (Exception ex)
+            {
+                rtbLog.Text += "Lỗi tạo Listener: " + ex.Message + "\r\n";
+            }
+        }
+
+        private async void btnCreatePool_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(osClient.AuthToken)) { MessageBox.Show("Vui lòng đăng nhập trước!"); return; }
+            if (string.IsNullOrEmpty(txtListenerId.Text)) { MessageBox.Show("Vui lòng nhập ID Listener!"); return; }
+            if (string.IsNullOrEmpty(txtPoolName.Text)) { MessageBox.Show("Vui lòng nhập tên Pool!"); return; }
+            if (string.IsNullOrEmpty(txtPoolProtocol.Text)) { MessageBox.Show("Vui lòng nhập Protocol!"); return; }
+
+            rtbLog.Text = "Đang tạo Pool...\r\n";
+
+            try
+            {
+                string result = await osClient.CreatePoolAsync(txtPoolName.Text, txtListenerId.Text, txtPoolProtocol.Text);
+                rtbLog.Text += "Response: " + result + "\r\n";
+
+                JObject json = JObject.Parse(result);
+                if (json["pool"] != null)
+                {
+                    string poolId = json["pool"]["id"].ToString();
+                    rtbLog.Text += $"=> Tạo Pool thành công! ID: {poolId}\r\n";
+                }
+                else
+                {
+                    rtbLog.Text += "Lỗi: Response không chứa pool\r\n";
+                }
+            }
+            catch (Exception ex)
+            {
+                rtbLog.Text += "Lỗi tạo Pool: " + ex.Message + "\r\n";
+            }
+        }
+
+        private async void btnCreateHealthMonitor_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(osClient.AuthToken)) { MessageBox.Show("Vui lòng đăng nhập trước!"); return; }
+            if (string.IsNullOrEmpty(txtPoolId.Text)) { MessageBox.Show("Vui lòng nhập ID Pool!"); return; }
+
+            rtbLog.Text = "Đang tạo Health Monitor...\r\n";
+
+            try
+            {
+                string hcType = string.IsNullOrEmpty(txtHealthCheckType.Text) ? "HTTP" : txtHealthCheckType.Text;
+                int delay = string.IsNullOrEmpty(txtHealthCheckDelay.Text) ? 5 : int.Parse(txtHealthCheckDelay.Text);
+                int timeout = string.IsNullOrEmpty(txtHealthCheckTimeout.Text) ? 5 : int.Parse(txtHealthCheckTimeout.Text);
+                int maxRetries = string.IsNullOrEmpty(txtHealthCheckRetries.Text) ? 3 : int.Parse(txtHealthCheckRetries.Text);
+
+                string result = await osClient.CreateHealthMonitorAsync(txtPoolId.Text, hcType, delay, timeout, maxRetries);
+                rtbLog.Text += "Response: " + result + "\r\n";
+
+                JObject json = JObject.Parse(result);
+                if (json["healthmonitor"] != null)
+                {
+                    string hmId = json["healthmonitor"]["id"].ToString();
+                    rtbLog.Text += $"=> Tạo Health Monitor thành công! ID: {hmId}\r\n";
+                }
+                else
+                {
+                    rtbLog.Text += "Lỗi: Response không chứa healthmonitor\r\n";
+                }
+            }
+            catch (Exception ex)
+            {
+                rtbLog.Text += "Lỗi tạo Health Monitor: " + ex.Message + "\r\n";
+            }
+        }
+
+        private async void btnGetLoadBalancers_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(osClient.AuthToken)) { MessageBox.Show("Vui lòng đăng nhập trước!"); return; }
+
+            rtbLog.Text = "Đang lấy danh sách LoadBalancer...\r\n";
+            string result = await osClient.GetLoadBalancersAsync();
+
+            try
+            {
+                JObject json = JObject.Parse(result);
+                var loadbalancers = json["loadbalancers"];
+                rtbLog.Text = "[DANH SÁCH LOADBALANCERS]\r\n";
+                int i = 1;
+                foreach (var lb in loadbalancers)
+                {
+                    rtbLog.Text += $"{i}. Tên: {lb["name"]} | ID: {lb["id"]} | Status: {lb["provisioning_status"]}\r\n";
+                    i++;
+                }
+            }
+            catch { rtbLog.Text += result + "\r\n"; }
+        }
+
+        private async void btnGetLBDetails_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(osClient.AuthToken)) { MessageBox.Show("Vui lòng đăng nhập trước!"); return; }
+            if (string.IsNullOrEmpty(txtLBId.Text)) { MessageBox.Show("Vui lòng nhập ID LoadBalancer!"); return; }
+
+            rtbLog.Text = "Đang lấy chi tiết LoadBalancer...\r\n";
+            string result = await osClient.GetLoadBalancerDetailsAsync(txtLBId.Text);
+
+            try
+            {
+                JObject json = JObject.Parse(result);
+                var lb = json["loadbalancer"];
+                rtbLog.Text = "[CHI TIẾT LOADBALANCER]\r\n";
+                rtbLog.Text += $"Tên: {lb["name"]}\r\n";
+                rtbLog.Text += $"ID: {lb["id"]}\r\n";
+                rtbLog.Text += $"Status: {lb["provisioning_status"]}\r\n";
+                if (lb["vip_address"] != null)
+                {
+                    rtbLog.Text += $"VIP Address: {lb["vip_address"]}\r\n";
+                }
+                rtbLog.Text += "--------------------------------------\r\n";
+            }
+            catch { rtbLog.Text += result + "\r\n"; }
+        }
+
+        private async void btnDeleteLB_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(osClient.AuthToken)) { MessageBox.Show("Vui lòng đăng nhập trước!"); return; }
+            if (string.IsNullOrEmpty(txtLBId.Text)) { MessageBox.Show("Vui lòng nhập ID LoadBalancer cần xóa!"); return; }
+
+            rtbLog.Text = $"Đang xóa LoadBalancer (ID: {txtLBId.Text})...\r\n";
+            string result = await osClient.DeleteLoadBalancerAsync(txtLBId.Text);
+            rtbLog.Text += $"Kết quả: {result}\r\n";
+        }
+
+        private async void btnDeleteListener_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(osClient.AuthToken)) { MessageBox.Show("Vui lòng đăng nhập trước!"); return; }
+            if (string.IsNullOrEmpty(txtListenerId.Text)) { MessageBox.Show("Vui lòng nhập ID Listener cần xóa!"); return; }
+
+            rtbLog.Text = $"Đang xóa Listener (ID: {txtListenerId.Text})...\r\n";
+            string result = await osClient.DeleteListenerAsync(txtListenerId.Text);
+            rtbLog.Text += $"Kết quả: {result}\r\n";
+        }
+
+        private async void btnDeletePool_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(osClient.AuthToken)) { MessageBox.Show("Vui lòng đăng nhập trước!"); return; }
+            if (string.IsNullOrEmpty(txtPoolId.Text)) { MessageBox.Show("Vui lòng nhập ID Pool cần xóa!"); return; }
+
+            rtbLog.Text = $"Đang xóa Pool (ID: {txtPoolId.Text})...\r\n";
+            string result = await osClient.DeletePoolAsync(txtPoolId.Text);
+            rtbLog.Text += $"Kết quả: {result}\r\n";
+        }
+
+        private async void btnAssignFloatingIpLB_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(osClient.AuthToken)) { MessageBox.Show("Vui lòng đăng nhập trước!"); return; }
+            if (string.IsNullOrEmpty(txtLBId.Text)) { MessageBox.Show("Vui lòng nhập ID LoadBalancer!"); return; }
+            if (string.IsNullOrEmpty(txtLBSubnetId.Text)) { MessageBox.Show("Vui lòng nhập Subnet ID của LoadBalancer!"); return; }
+
+            rtbLog.Text = "Đang gắn Floating IP cho LoadBalancer...\r\n";
+
+            try
+            {
+                // Lấy Network ID từ Subnet ID
+                rtbLog.Text += "1. Lấy Network ID từ Subnet...\r\n";
+                string networkId = await osClient.GetNetworkIdFromSubnetAsync(txtLBSubnetId.Text);
+                rtbLog.Text += $"   => Network ID: {networkId}\r\n\r\n";
+
+                // Gắn Floating IP vào LoadBalancer
+                rtbLog.Text += "2. Gắn Floating IP cho LoadBalancer...\r\n";
+                string result = await osClient.AssignFloatingIpToLoadBalancerAsync(txtLBId.Text, networkId);
+                rtbLog.Text += "Response: " + result + "\r\n";
+
+                JObject json = JObject.Parse(result);
+                if (json["floatingip"] != null)
+                {
+                    string floatingIp = json["floatingip"]["floating_ip_address"].ToString();
+                    rtbLog.Text += $"=> Gắn Floating IP thành công!\r\n";
+                    rtbLog.Text += $"   - Floating IP: {floatingIp}\r\n";
+                    rtbLog.Text += $"=> Bây giờ bạn có thể truy cập LoadBalancer qua IP này!\r\n";
+                }
+                else
+                {
+                    rtbLog.Text += "Lỗi: Response không chứa floatingip\r\n";
+                }
+            }
+            catch (Exception ex)
+            {
+                rtbLog.Text += "Lỗi gắn Floating IP: " + ex.Message + "\r\n";
+            }
+        }
+
+
     }
 }
+
