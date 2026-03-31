@@ -51,7 +51,17 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.label28 = new System.Windows.Forms.Label();
-            this.txtidInterface = new System.Windows.Forms.TextBox();
+            this.txtidInterface = new System.Windows.Forms.ComboBox();
+            this.label33Net = new System.Windows.Forms.Label();
+            this.txtNetworkId = new System.Windows.Forms.ComboBox();
+            this.label29Net = new System.Windows.Forms.Label();
+            this.label30Net = new System.Windows.Forms.Label();
+            this.label31Net = new System.Windows.Forms.Label();
+            this.label32Net = new System.Windows.Forms.Label();
+            this.txtNetworkName = new System.Windows.Forms.TextBox();
+            this.txtRouterName = new System.Windows.Forms.TextBox();
+            this.txtSubnetName = new System.Windows.Forms.TextBox();
+            this.txtCidr = new System.Windows.Forms.TextBox();
             this.btnGetSubnets = new System.Windows.Forms.Button();
             this.btnGetNetworks = new System.Windows.Forms.Button();
             this.btnGetRouters = new System.Windows.Forms.Button();
@@ -61,8 +71,8 @@
             this.btnAssignFip = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.txtTargetId = new System.Windows.Forms.TextBox();
-            this.txtPortId = new System.Windows.Forms.TextBox();
+            this.txtTargetId = new System.Windows.Forms.ComboBox();
+            this.txtPortId = new System.Windows.Forms.ComboBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.butgetPortPC = new System.Windows.Forms.Button();
             this.label27 = new System.Windows.Forms.Label();
@@ -72,33 +82,45 @@
             this.btnScaleDown = new System.Windows.Forms.Button();
             this.btnScaleUp = new System.Windows.Forms.Button();
             this.btnCreateVM = new System.Windows.Forms.Button();
+            this.label34Instance = new System.Windows.Forms.Label();
+            this.txtInstanceId = new System.Windows.Forms.ComboBox();
+            this.label37 = new System.Windows.Forms.Label();
+            this.txtKeyPair = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.txtFlavorId = new System.Windows.Forms.TextBox();
-            this.txtNetId = new System.Windows.Forms.TextBox();
-            this.txtPoolId = new System.Windows.Forms.TextBox();
-            this.txtImageId = new System.Windows.Forms.TextBox();
+            this.txtFlavorId = new System.Windows.Forms.ComboBox();
+            this.txtNetId = new System.Windows.Forms.ComboBox();
+            this.txtPoolId = new System.Windows.Forms.ComboBox();
+            this.txtImageId = new System.Windows.Forms.ComboBox();
             this.txtVmName = new System.Windows.Forms.TextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.btnDeletePool = new System.Windows.Forms.Button();
+            this.btnDeleteListener = new System.Windows.Forms.Button();
+            this.btnDeleteLB = new System.Windows.Forms.Button();
+            this.btnGetLBDetails = new System.Windows.Forms.Button();
             this.btnAssignFloatingIpLB = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label23 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
-            this.txtHealthCheckType = new System.Windows.Forms.TextBox();
+            this.txtHealthCheckType = new System.Windows.Forms.ComboBox();
             this.txtHealthCheckRetries = new System.Windows.Forms.TextBox();
             this.txtHealthCheckTimeout = new System.Windows.Forms.TextBox();
             this.txtHealthCheckDelay = new System.Windows.Forms.TextBox();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
-            this.txtListenerId = new System.Windows.Forms.TextBox();
+            this.label35 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.txtLbPoolId = new System.Windows.Forms.ComboBox();
+            this.txtListenerId = new System.Windows.Forms.ComboBox();
             this.txtListenerName = new System.Windows.Forms.TextBox();
-            this.txtLBId = new System.Windows.Forms.TextBox();
+            this.txtLBId = new System.Windows.Forms.ComboBox();
+            this.txtMemberId = new System.Windows.Forms.TextBox();
             this.btnGetLoadBalancers = new System.Windows.Forms.Button();
             this.btnCreateHealthMonitor = new System.Windows.Forms.Button();
             this.btnCreateListener = new System.Windows.Forms.Button();
@@ -111,18 +133,16 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
             this.txtPoolPort = new System.Windows.Forms.TextBox();
-            this.txtPoolProtocol = new System.Windows.Forms.TextBox();
+            this.txtPoolProtocol = new System.Windows.Forms.ComboBox();
             this.txtPoolName = new System.Windows.Forms.TextBox();
             this.txtListenerPort = new System.Windows.Forms.TextBox();
-            this.txtListenerProtocol = new System.Windows.Forms.TextBox();
-            this.txtLBSubnetId = new System.Windows.Forms.TextBox();
+            this.txtListenerProtocol = new System.Windows.Forms.ComboBox();
+            this.txtLBSubnetId = new System.Windows.Forms.ComboBox();
+            this.txtExternalNetworkId = new System.Windows.Forms.ComboBox();
             this.txtLBName = new System.Windows.Forms.TextBox();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.btnGetLBDetails = new System.Windows.Forms.Button();
-            this.btnDeleteLB = new System.Windows.Forms.Button();
-            this.btnDeleteListener = new System.Windows.Forms.Button();
-            this.btnDeletePool = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabControl2.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -226,9 +246,9 @@
             // 
             // rtbLog
             // 
-            this.rtbLog.Location = new System.Drawing.Point(12, 321);
+            this.rtbLog.Location = new System.Drawing.Point(12, 338);
             this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(1266, 324);
+            this.rtbLog.Size = new System.Drawing.Size(1357, 292);
             this.rtbLog.TabIndex = 9;
             this.rtbLog.Text = "";
             this.rtbLog.TextChanged += new System.EventHandler(this.rtbLog_TextChanged);
@@ -332,7 +352,7 @@
             this.tabControl2.Location = new System.Drawing.Point(12, 12);
             this.tabControl2.Name = "tabControl2";
             this.tabControl2.SelectedIndex = 0;
-            this.tabControl2.Size = new System.Drawing.Size(1521, 307);
+            this.tabControl2.Size = new System.Drawing.Size(1521, 324);
             this.tabControl2.TabIndex = 16;
             // 
             // tabPage4
@@ -351,7 +371,7 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 28);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(1513, 275);
+            this.tabPage4.Size = new System.Drawing.Size(1513, 292);
             this.tabPage4.TabIndex = 1;
             this.tabPage4.Text = "Tab 1 - Xác Thực";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -360,6 +380,16 @@
             // 
             this.tabPage5.Controls.Add(this.label28);
             this.tabPage5.Controls.Add(this.txtidInterface);
+            this.tabPage5.Controls.Add(this.label33Net);
+            this.tabPage5.Controls.Add(this.txtNetworkId);
+            this.tabPage5.Controls.Add(this.label29Net);
+            this.tabPage5.Controls.Add(this.label30Net);
+            this.tabPage5.Controls.Add(this.label31Net);
+            this.tabPage5.Controls.Add(this.label32Net);
+            this.tabPage5.Controls.Add(this.txtNetworkName);
+            this.tabPage5.Controls.Add(this.txtRouterName);
+            this.tabPage5.Controls.Add(this.txtSubnetName);
+            this.tabPage5.Controls.Add(this.txtCidr);
             this.tabPage5.Controls.Add(this.btnGetSubnets);
             this.tabPage5.Controls.Add(this.btnGetNetworks);
             this.tabPage5.Controls.Add(this.btnGetRouters);
@@ -377,29 +407,121 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 28);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1513, 275);
+            this.tabPage5.Size = new System.Drawing.Size(1513, 292);
             this.tabPage5.TabIndex = 2;
             this.tabPage5.Text = "Tab 2 - Mạng";
             this.tabPage5.UseVisualStyleBackColor = true;
+            this.tabPage5.Click += new System.EventHandler(this.tabPage5_Click);
             // 
             // label28
             // 
             this.label28.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label28.Location = new System.Drawing.Point(9, 118);
+            this.label28.Location = new System.Drawing.Point(7, 179);
             this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(117, 37);
             this.label28.TabIndex = 25;
-            this.label28.Text = "ID Interface:";
+            this.label28.Text = "Subnet ID:";
             // 
             // txtidInterface
             // 
+            this.txtidInterface.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.txtidInterface.Font = new System.Drawing.Font("Palatino Linotype", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtidInterface.Location = new System.Drawing.Point(132, 118);
+            this.txtidInterface.Location = new System.Drawing.Point(132, 178);
             this.txtidInterface.Margin = new System.Windows.Forms.Padding(4);
             this.txtidInterface.Name = "txtidInterface";
-            this.txtidInterface.Size = new System.Drawing.Size(356, 26);
+            this.txtidInterface.Size = new System.Drawing.Size(356, 27);
             this.txtidInterface.TabIndex = 24;
+            this.txtidInterface.SelectedIndexChanged += new System.EventHandler(this.txtidInterface_SelectedIndexChanged);
+            // 
+            // label33Net
+            // 
+            this.label33Net.AutoSize = true;
+            this.label33Net.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold);
+            this.label33Net.Location = new System.Drawing.Point(7, 247);
+            this.label33Net.Name = "label33Net";
+            this.label33Net.Size = new System.Drawing.Size(99, 21);
+            this.label33Net.TabIndex = 34;
+            this.label33Net.Text = "Network ID:";
+            // 
+            // txtNetworkId
+            // 
+            this.txtNetworkId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txtNetworkId.Font = new System.Drawing.Font("Palatino Linotype", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtNetworkId.Location = new System.Drawing.Point(132, 244);
+            this.txtNetworkId.Margin = new System.Windows.Forms.Padding(4);
+            this.txtNetworkId.Name = "txtNetworkId";
+            this.txtNetworkId.Size = new System.Drawing.Size(356, 27);
+            this.txtNetworkId.TabIndex = 35;
+            // 
+            // label29Net
+            // 
+            this.label29Net.AutoSize = true;
+            this.label29Net.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold);
+            this.label29Net.Location = new System.Drawing.Point(7, 14);
+            this.label29Net.Name = "label29Net";
+            this.label29Net.Size = new System.Drawing.Size(122, 21);
+            this.label29Net.TabIndex = 26;
+            this.label29Net.Text = "Network Name:";
+            // 
+            // label30Net
+            // 
+            this.label30Net.AutoSize = true;
+            this.label30Net.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold);
+            this.label30Net.Location = new System.Drawing.Point(7, 81);
+            this.label30Net.Name = "label30Net";
+            this.label30Net.Size = new System.Drawing.Size(107, 21);
+            this.label30Net.TabIndex = 27;
+            this.label30Net.Text = "Router Name:";
+            // 
+            // label31Net
+            // 
+            this.label31Net.AutoSize = true;
+            this.label31Net.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold);
+            this.label31Net.Location = new System.Drawing.Point(7, 148);
+            this.label31Net.Name = "label31Net";
+            this.label31Net.Size = new System.Drawing.Size(109, 21);
+            this.label31Net.TabIndex = 28;
+            this.label31Net.Text = "Subnet Name:";
+            // 
+            // label32Net
+            // 
+            this.label32Net.AutoSize = true;
+            this.label32Net.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold);
+            this.label32Net.Location = new System.Drawing.Point(7, 216);
+            this.label32Net.Name = "label32Net";
+            this.label32Net.Size = new System.Drawing.Size(54, 21);
+            this.label32Net.TabIndex = 29;
+            this.label32Net.Text = "CIDR:";
+            // 
+            // txtNetworkName
+            // 
+            this.txtNetworkName.Location = new System.Drawing.Point(132, 11);
+            this.txtNetworkName.Name = "txtNetworkName";
+            this.txtNetworkName.Size = new System.Drawing.Size(356, 26);
+            this.txtNetworkName.TabIndex = 30;
+            // 
+            // txtRouterName
+            // 
+            this.txtRouterName.Location = new System.Drawing.Point(132, 78);
+            this.txtRouterName.Name = "txtRouterName";
+            this.txtRouterName.Size = new System.Drawing.Size(356, 26);
+            this.txtRouterName.TabIndex = 31;
+            // 
+            // txtSubnetName
+            // 
+            this.txtSubnetName.Location = new System.Drawing.Point(132, 145);
+            this.txtSubnetName.Name = "txtSubnetName";
+            this.txtSubnetName.Size = new System.Drawing.Size(356, 26);
+            this.txtSubnetName.TabIndex = 32;
+            // 
+            // txtCidr
+            // 
+            this.txtCidr.Location = new System.Drawing.Point(132, 212);
+            this.txtCidr.Name = "txtCidr";
+            this.txtCidr.Size = new System.Drawing.Size(356, 26);
+            this.txtCidr.TabIndex = 33;
+            this.txtCidr.Text = "192.168.100.0/24";
             // 
             // btnGetSubnets
             // 
@@ -440,10 +562,10 @@
             // label12
             // 
             this.label12.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label12.Location = new System.Drawing.Point(128, 161);
+            this.label12.Location = new System.Drawing.Point(496, 181);
             this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(275, 111);
+            this.label12.Size = new System.Drawing.Size(232, 71);
             this.label12.TabIndex = 19;
             this.label12.Text = "Lưu ý: Xóa Máy ảo trước sau đó mở giao diện web ngắt kết nối giữa Router và Subne" +
     "t. Tiếp theo xóa Router và sau đó xóa Network\r\n\r\n\r\n";
@@ -488,7 +610,7 @@
             // label11
             // 
             this.label11.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label11.Location = new System.Drawing.Point(7, 67);
+            this.label11.Location = new System.Drawing.Point(7, 114);
             this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(117, 37);
@@ -498,29 +620,32 @@
             // label10
             // 
             this.label10.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label10.Location = new System.Drawing.Point(7, 20);
+            this.label10.Location = new System.Drawing.Point(7, 47);
             this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(99, 37);
             this.label10.TabIndex = 8;
-            this.label10.Text = "Target ID:";
+            this.label10.Text = "Router ID:";
             // 
             // txtTargetId
             // 
+            this.txtTargetId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.txtTargetId.Font = new System.Drawing.Font("Palatino Linotype", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTargetId.Location = new System.Drawing.Point(132, 18);
+            this.txtTargetId.Location = new System.Drawing.Point(132, 44);
             this.txtTargetId.Margin = new System.Windows.Forms.Padding(4);
             this.txtTargetId.Name = "txtTargetId";
-            this.txtTargetId.Size = new System.Drawing.Size(356, 26);
+            this.txtTargetId.Size = new System.Drawing.Size(356, 27);
             this.txtTargetId.TabIndex = 7;
+            this.txtTargetId.SelectedIndexChanged += new System.EventHandler(this.txtTargetId_SelectedIndexChanged);
             // 
             // txtPortId
             // 
+            this.txtPortId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.txtPortId.Font = new System.Drawing.Font("Palatino Linotype", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPortId.Location = new System.Drawing.Point(132, 65);
+            this.txtPortId.Location = new System.Drawing.Point(134, 111);
             this.txtPortId.Margin = new System.Windows.Forms.Padding(4);
             this.txtPortId.Name = "txtPortId";
-            this.txtPortId.Size = new System.Drawing.Size(356, 26);
+            this.txtPortId.Size = new System.Drawing.Size(356, 27);
             this.txtPortId.TabIndex = 6;
             // 
             // tabPage3
@@ -533,6 +658,10 @@
             this.tabPage3.Controls.Add(this.btnScaleDown);
             this.tabPage3.Controls.Add(this.btnScaleUp);
             this.tabPage3.Controls.Add(this.btnCreateVM);
+            this.tabPage3.Controls.Add(this.label34Instance);
+            this.tabPage3.Controls.Add(this.txtInstanceId);
+            this.tabPage3.Controls.Add(this.label37);
+            this.tabPage3.Controls.Add(this.txtKeyPair);
             this.tabPage3.Controls.Add(this.label9);
             this.tabPage3.Controls.Add(this.label8);
             this.tabPage3.Controls.Add(this.label7);
@@ -546,7 +675,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 28);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1513, 275);
+            this.tabPage3.Size = new System.Drawing.Size(1513, 292);
             this.tabPage3.TabIndex = 3;
             this.tabPage3.Text = "Tab 3 - Máy ảo & LB";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -639,10 +768,45 @@
             this.btnCreateVM.UseVisualStyleBackColor = true;
             this.btnCreateVM.Click += new System.EventHandler(this.btnCreateVM_Click);
             // 
+            // label34Instance
+            // 
+            this.label34Instance.AutoSize = true;
+            this.label34Instance.Location = new System.Drawing.Point(19, 62);
+            this.label34Instance.Name = "label34Instance";
+            this.label34Instance.Size = new System.Drawing.Size(66, 19);
+            this.label34Instance.TabIndex = 26;
+            this.label34Instance.Text = "Instance:";
+            // 
+            // txtInstanceId
+            // 
+            this.txtInstanceId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txtInstanceId.Location = new System.Drawing.Point(117, 58);
+            this.txtInstanceId.Name = "txtInstanceId";
+            this.txtInstanceId.Size = new System.Drawing.Size(382, 27);
+            this.txtInstanceId.TabIndex = 27;
+            this.txtInstanceId.SelectedIndexChanged += new System.EventHandler(this.txtInstanceId_SelectedIndexChanged);
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(19, 257);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(68, 19);
+            this.label37.TabIndex = 28;
+            this.label37.Text = "Key Pair:";
+            // 
+            // txtKeyPair
+            // 
+            this.txtKeyPair.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txtKeyPair.Location = new System.Drawing.Point(117, 253);
+            this.txtKeyPair.Name = "txtKeyPair";
+            this.txtKeyPair.Size = new System.Drawing.Size(382, 27);
+            this.txtKeyPair.TabIndex = 29;
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(19, 219);
+            this.label9.Location = new System.Drawing.Point(19, 218);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(62, 19);
             this.label9.TabIndex = 9;
@@ -651,7 +815,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(19, 173);
+            this.label8.Location = new System.Drawing.Point(19, 179);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(56, 19);
             this.label8.TabIndex = 8;
@@ -660,7 +824,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(19, 123);
+            this.label7.Location = new System.Drawing.Point(19, 140);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(74, 19);
             this.label7.TabIndex = 7;
@@ -669,7 +833,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(19, 72);
+            this.label6.Location = new System.Drawing.Point(19, 101);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(71, 19);
             this.label6.TabIndex = 6;
@@ -678,7 +842,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(19, 20);
+            this.label5.Location = new System.Drawing.Point(19, 24);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(76, 19);
             this.label5.TabIndex = 5;
@@ -686,30 +850,34 @@
             // 
             // txtFlavorId
             // 
-            this.txtFlavorId.Location = new System.Drawing.Point(117, 120);
+            this.txtFlavorId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txtFlavorId.Location = new System.Drawing.Point(117, 136);
             this.txtFlavorId.Name = "txtFlavorId";
-            this.txtFlavorId.Size = new System.Drawing.Size(382, 26);
+            this.txtFlavorId.Size = new System.Drawing.Size(382, 27);
             this.txtFlavorId.TabIndex = 4;
             // 
             // txtNetId
             // 
-            this.txtNetId.Location = new System.Drawing.Point(117, 170);
+            this.txtNetId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txtNetId.Location = new System.Drawing.Point(117, 175);
             this.txtNetId.Name = "txtNetId";
-            this.txtNetId.Size = new System.Drawing.Size(382, 26);
+            this.txtNetId.Size = new System.Drawing.Size(382, 27);
             this.txtNetId.TabIndex = 3;
             // 
             // txtPoolId
             // 
-            this.txtPoolId.Location = new System.Drawing.Point(117, 216);
+            this.txtPoolId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txtPoolId.Location = new System.Drawing.Point(117, 214);
             this.txtPoolId.Name = "txtPoolId";
-            this.txtPoolId.Size = new System.Drawing.Size(382, 26);
+            this.txtPoolId.Size = new System.Drawing.Size(382, 27);
             this.txtPoolId.TabIndex = 2;
             // 
             // txtImageId
             // 
-            this.txtImageId.Location = new System.Drawing.Point(117, 69);
+            this.txtImageId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txtImageId.Location = new System.Drawing.Point(117, 97);
             this.txtImageId.Name = "txtImageId";
-            this.txtImageId.Size = new System.Drawing.Size(382, 26);
+            this.txtImageId.Size = new System.Drawing.Size(382, 27);
             this.txtImageId.TabIndex = 1;
             // 
             // txtVmName
@@ -730,9 +898,13 @@
             this.tabPage6.Controls.Add(this.label22);
             this.tabPage6.Controls.Add(this.label21);
             this.tabPage6.Controls.Add(this.label20);
+            this.tabPage6.Controls.Add(this.label35);
+            this.tabPage6.Controls.Add(this.label29);
+            this.tabPage6.Controls.Add(this.txtLbPoolId);
             this.tabPage6.Controls.Add(this.txtListenerId);
             this.tabPage6.Controls.Add(this.txtListenerName);
             this.tabPage6.Controls.Add(this.txtLBId);
+            this.tabPage6.Controls.Add(this.txtMemberId);
             this.tabPage6.Controls.Add(this.btnGetLoadBalancers);
             this.tabPage6.Controls.Add(this.btnCreateHealthMonitor);
             this.tabPage6.Controls.Add(this.btnCreateListener);
@@ -745,25 +917,75 @@
             this.tabPage6.Controls.Add(this.label15);
             this.tabPage6.Controls.Add(this.label14);
             this.tabPage6.Controls.Add(this.label13);
+            this.tabPage6.Controls.Add(this.label36);
             this.tabPage6.Controls.Add(this.txtPoolPort);
             this.tabPage6.Controls.Add(this.txtPoolProtocol);
             this.tabPage6.Controls.Add(this.txtPoolName);
             this.tabPage6.Controls.Add(this.txtListenerPort);
             this.tabPage6.Controls.Add(this.txtListenerProtocol);
             this.tabPage6.Controls.Add(this.txtLBSubnetId);
+            this.tabPage6.Controls.Add(this.txtExternalNetworkId);
             this.tabPage6.Controls.Add(this.txtLBName);
             this.tabPage6.Location = new System.Drawing.Point(4, 28);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(1513, 275);
+            this.tabPage6.Size = new System.Drawing.Size(1513, 292);
             this.tabPage6.TabIndex = 4;
-            this.tabPage6.Text = "Tab 4 Tạo LB";
+            this.tabPage6.Text = "Tab 4 - Tạo LB";
             this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // btnDeletePool
+            // 
+            this.btnDeletePool.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btnDeletePool.Location = new System.Drawing.Point(1149, 212);
+            this.btnDeletePool.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDeletePool.Name = "btnDeletePool";
+            this.btnDeletePool.Size = new System.Drawing.Size(192, 51);
+            this.btnDeletePool.TabIndex = 40;
+            this.btnDeletePool.Text = "Delete Pool";
+            this.btnDeletePool.UseVisualStyleBackColor = true;
+            this.btnDeletePool.Click += new System.EventHandler(this.btnDeletePool_Click);
+            // 
+            // btnDeleteListener
+            // 
+            this.btnDeleteListener.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btnDeleteListener.Location = new System.Drawing.Point(949, 212);
+            this.btnDeleteListener.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDeleteListener.Name = "btnDeleteListener";
+            this.btnDeleteListener.Size = new System.Drawing.Size(192, 51);
+            this.btnDeleteListener.TabIndex = 39;
+            this.btnDeleteListener.Text = "Delete Listener";
+            this.btnDeleteListener.UseVisualStyleBackColor = true;
+            this.btnDeleteListener.Click += new System.EventHandler(this.btnDeleteListener_Click);
+            // 
+            // btnDeleteLB
+            // 
+            this.btnDeleteLB.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btnDeleteLB.Location = new System.Drawing.Point(1149, 143);
+            this.btnDeleteLB.Margin = new System.Windows.Forms.Padding(4);
+            this.btnDeleteLB.Name = "btnDeleteLB";
+            this.btnDeleteLB.Size = new System.Drawing.Size(192, 51);
+            this.btnDeleteLB.TabIndex = 38;
+            this.btnDeleteLB.Text = "Delete LB";
+            this.btnDeleteLB.UseVisualStyleBackColor = true;
+            this.btnDeleteLB.Click += new System.EventHandler(this.btnDeleteLB_Click);
+            // 
+            // btnGetLBDetails
+            // 
+            this.btnGetLBDetails.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btnGetLBDetails.Location = new System.Drawing.Point(749, 7);
+            this.btnGetLBDetails.Margin = new System.Windows.Forms.Padding(4);
+            this.btnGetLBDetails.Name = "btnGetLBDetails";
+            this.btnGetLBDetails.Size = new System.Drawing.Size(192, 48);
+            this.btnGetLBDetails.TabIndex = 37;
+            this.btnGetLBDetails.Text = "GET LB Details";
+            this.btnGetLBDetails.UseVisualStyleBackColor = true;
+            this.btnGetLBDetails.Click += new System.EventHandler(this.btnGetLBDetails_Click);
             // 
             // btnAssignFloatingIpLB
             // 
             this.btnAssignFloatingIpLB.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btnAssignFloatingIpLB.Location = new System.Drawing.Point(947, 7);
+            this.btnAssignFloatingIpLB.Location = new System.Drawing.Point(749, 76);
             this.btnAssignFloatingIpLB.Margin = new System.Windows.Forms.Padding(4);
             this.btnAssignFloatingIpLB.Name = "btnAssignFloatingIpLB";
             this.btnAssignFloatingIpLB.Size = new System.Drawing.Size(192, 51);
@@ -782,9 +1004,9 @@
             this.groupBox1.Controls.Add(this.txtHealthCheckRetries);
             this.groupBox1.Controls.Add(this.txtHealthCheckTimeout);
             this.groupBox1.Controls.Add(this.txtHealthCheckDelay);
-            this.groupBox1.Location = new System.Drawing.Point(770, 89);
+            this.groupBox1.Location = new System.Drawing.Point(717, 132);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(169, 160);
+            this.groupBox1.Size = new System.Drawing.Size(225, 160);
             this.groupBox1.TabIndex = 35;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Monitor Details";
@@ -831,36 +1053,37 @@
             // 
             // txtHealthCheckType
             // 
+            this.txtHealthCheckType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.txtHealthCheckType.Location = new System.Drawing.Point(113, 60);
             this.txtHealthCheckType.Name = "txtHealthCheckType";
-            this.txtHealthCheckType.Size = new System.Drawing.Size(40, 26);
+            this.txtHealthCheckType.Size = new System.Drawing.Size(94, 27);
             this.txtHealthCheckType.TabIndex = 24;
             // 
             // txtHealthCheckRetries
             // 
             this.txtHealthCheckRetries.Location = new System.Drawing.Point(113, 28);
             this.txtHealthCheckRetries.Name = "txtHealthCheckRetries";
-            this.txtHealthCheckRetries.Size = new System.Drawing.Size(40, 26);
+            this.txtHealthCheckRetries.Size = new System.Drawing.Size(94, 26);
             this.txtHealthCheckRetries.TabIndex = 27;
             // 
             // txtHealthCheckTimeout
             // 
             this.txtHealthCheckTimeout.Location = new System.Drawing.Point(113, 124);
             this.txtHealthCheckTimeout.Name = "txtHealthCheckTimeout";
-            this.txtHealthCheckTimeout.Size = new System.Drawing.Size(40, 26);
+            this.txtHealthCheckTimeout.Size = new System.Drawing.Size(94, 26);
             this.txtHealthCheckTimeout.TabIndex = 26;
             // 
             // txtHealthCheckDelay
             // 
             this.txtHealthCheckDelay.Location = new System.Drawing.Point(113, 92);
             this.txtHealthCheckDelay.Name = "txtHealthCheckDelay";
-            this.txtHealthCheckDelay.Size = new System.Drawing.Size(40, 26);
+            this.txtHealthCheckDelay.Size = new System.Drawing.Size(94, 26);
             this.txtHealthCheckDelay.TabIndex = 25;
             // 
             // label22
             // 
             this.label22.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label22.Location = new System.Drawing.Point(356, 217);
+            this.label22.Location = new System.Drawing.Point(340, 91);
             this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(99, 23);
@@ -870,7 +1093,7 @@
             // label21
             // 
             this.label21.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label21.Location = new System.Drawing.Point(356, 188);
+            this.label21.Location = new System.Drawing.Point(340, 56);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(122, 23);
@@ -880,38 +1103,76 @@
             // label20
             // 
             this.label20.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.label20.Location = new System.Drawing.Point(356, 153);
+            this.label20.Location = new System.Drawing.Point(340, 24);
             this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(99, 23);
             this.label20.TabIndex = 28;
             this.label20.Text = "ID LB:";
             // 
+            // label35
+            // 
+            this.label35.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label35.Location = new System.Drawing.Point(340, 120);
+            this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(122, 23);
+            this.label35.TabIndex = 41;
+            this.label35.Text = "Pool ID:";
+            // 
+            // label29
+            // 
+            this.label29.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label29.Location = new System.Drawing.Point(340, 152);
+            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(122, 23);
+            this.label29.TabIndex = 31;
+            this.label29.Text = "Member ID:";
+            // 
+            // txtLbPoolId
+            // 
+            this.txtLbPoolId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txtLbPoolId.Location = new System.Drawing.Point(469, 118);
+            this.txtLbPoolId.Name = "txtLbPoolId";
+            this.txtLbPoolId.Size = new System.Drawing.Size(172, 27);
+            this.txtLbPoolId.TabIndex = 24;
+            // 
             // txtListenerId
             // 
-            this.txtListenerId.Location = new System.Drawing.Point(485, 214);
+            this.txtListenerId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txtListenerId.Location = new System.Drawing.Point(469, 89);
             this.txtListenerId.Name = "txtListenerId";
-            this.txtListenerId.Size = new System.Drawing.Size(172, 26);
+            this.txtListenerId.Size = new System.Drawing.Size(172, 27);
             this.txtListenerId.TabIndex = 23;
             // 
             // txtListenerName
             // 
-            this.txtListenerName.Location = new System.Drawing.Point(485, 182);
+            this.txtListenerName.Location = new System.Drawing.Point(469, 54);
             this.txtListenerName.Name = "txtListenerName";
             this.txtListenerName.Size = new System.Drawing.Size(172, 26);
             this.txtListenerName.TabIndex = 22;
             // 
             // txtLBId
             // 
-            this.txtLBId.Location = new System.Drawing.Point(485, 150);
+            this.txtLBId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txtLBId.Location = new System.Drawing.Point(469, 22);
             this.txtLBId.Name = "txtLBId";
-            this.txtLBId.Size = new System.Drawing.Size(172, 26);
+            this.txtLBId.Size = new System.Drawing.Size(172, 27);
             this.txtLBId.TabIndex = 21;
+            this.txtLBId.SelectedIndexChanged += new System.EventHandler(this.txtLBId_SelectedIndexChanged);
+            // 
+            // txtMemberId
+            // 
+            this.txtMemberId.Location = new System.Drawing.Point(469, 150);
+            this.txtMemberId.Name = "txtMemberId";
+            this.txtMemberId.Size = new System.Drawing.Size(172, 26);
+            this.txtMemberId.TabIndex = 25;
             // 
             // btnGetLoadBalancers
             // 
             this.btnGetLoadBalancers.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btnGetLoadBalancers.Location = new System.Drawing.Point(747, 7);
+            this.btnGetLoadBalancers.Location = new System.Drawing.Point(949, 143);
             this.btnGetLoadBalancers.Margin = new System.Windows.Forms.Padding(4);
             this.btnGetLoadBalancers.Name = "btnGetLoadBalancers";
             this.btnGetLoadBalancers.Size = new System.Drawing.Size(192, 51);
@@ -923,7 +1184,7 @@
             // btnCreateHealthMonitor
             // 
             this.btnCreateHealthMonitor.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btnCreateHealthMonitor.Location = new System.Drawing.Point(547, 61);
+            this.btnCreateHealthMonitor.Location = new System.Drawing.Point(1149, 76);
             this.btnCreateHealthMonitor.Margin = new System.Windows.Forms.Padding(4);
             this.btnCreateHealthMonitor.Name = "btnCreateHealthMonitor";
             this.btnCreateHealthMonitor.Size = new System.Drawing.Size(192, 51);
@@ -935,7 +1196,7 @@
             // btnCreateListener
             // 
             this.btnCreateListener.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btnCreateListener.Location = new System.Drawing.Point(347, 61);
+            this.btnCreateListener.Location = new System.Drawing.Point(949, 76);
             this.btnCreateListener.Margin = new System.Windows.Forms.Padding(4);
             this.btnCreateListener.Name = "btnCreateListener";
             this.btnCreateListener.Size = new System.Drawing.Size(192, 51);
@@ -947,7 +1208,7 @@
             // btnCreatePool
             // 
             this.btnCreatePool.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btnCreatePool.Location = new System.Drawing.Point(547, 7);
+            this.btnCreatePool.Location = new System.Drawing.Point(1149, 6);
             this.btnCreatePool.Margin = new System.Windows.Forms.Padding(4);
             this.btnCreatePool.Name = "btnCreatePool";
             this.btnCreatePool.Size = new System.Drawing.Size(192, 51);
@@ -959,7 +1220,7 @@
             // btnCreateLB
             // 
             this.btnCreateLB.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btnCreateLB.Location = new System.Drawing.Point(347, 7);
+            this.btnCreateLB.Location = new System.Drawing.Point(949, 6);
             this.btnCreateLB.Margin = new System.Windows.Forms.Padding(4);
             this.btnCreateLB.Name = "btnCreateLB";
             this.btnCreateLB.Size = new System.Drawing.Size(192, 51);
@@ -976,7 +1237,7 @@
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(99, 23);
             this.label19.TabIndex = 15;
-            this.label19.Text = "Port Pool:";
+            this.label19.Text = "Member Port:";
             // 
             // label18
             // 
@@ -1028,6 +1289,16 @@
             this.label14.TabIndex = 10;
             this.label14.Text = "ID Subnet:";
             // 
+            // label36
+            // 
+            this.label36.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.label36.Location = new System.Drawing.Point(11, 248);
+            this.label36.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(127, 23);
+            this.label36.TabIndex = 42;
+            this.label36.Text = "External Net:";
+            // 
             // label13
             // 
             this.label13.Font = new System.Drawing.Font("Palatino Linotype", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
@@ -1047,9 +1318,10 @@
             // 
             // txtPoolProtocol
             // 
+            this.txtPoolProtocol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.txtPoolProtocol.Location = new System.Drawing.Point(142, 182);
             this.txtPoolProtocol.Name = "txtPoolProtocol";
-            this.txtPoolProtocol.Size = new System.Drawing.Size(172, 26);
+            this.txtPoolProtocol.Size = new System.Drawing.Size(172, 27);
             this.txtPoolProtocol.TabIndex = 5;
             // 
             // txtPoolName
@@ -1068,17 +1340,27 @@
             // 
             // txtListenerProtocol
             // 
+            this.txtListenerProtocol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.txtListenerProtocol.Location = new System.Drawing.Point(142, 89);
             this.txtListenerProtocol.Name = "txtListenerProtocol";
-            this.txtListenerProtocol.Size = new System.Drawing.Size(172, 26);
+            this.txtListenerProtocol.Size = new System.Drawing.Size(172, 27);
             this.txtListenerProtocol.TabIndex = 2;
             // 
             // txtLBSubnetId
             // 
+            this.txtLBSubnetId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.txtLBSubnetId.Location = new System.Drawing.Point(142, 54);
             this.txtLBSubnetId.Name = "txtLBSubnetId";
-            this.txtLBSubnetId.Size = new System.Drawing.Size(172, 26);
+            this.txtLBSubnetId.Size = new System.Drawing.Size(172, 27);
             this.txtLBSubnetId.TabIndex = 1;
+            // 
+            // txtExternalNetworkId
+            // 
+            this.txtExternalNetworkId.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.txtExternalNetworkId.Location = new System.Drawing.Point(142, 247);
+            this.txtExternalNetworkId.Name = "txtExternalNetworkId";
+            this.txtExternalNetworkId.Size = new System.Drawing.Size(172, 27);
+            this.txtExternalNetworkId.TabIndex = 7;
             // 
             // txtLBName
             // 
@@ -1092,54 +1374,6 @@
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
-            // 
-            // btnGetLBDetails
-            // 
-            this.btnGetLBDetails.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btnGetLBDetails.Location = new System.Drawing.Point(1149, 7);
-            this.btnGetLBDetails.Margin = new System.Windows.Forms.Padding(4);
-            this.btnGetLBDetails.Name = "btnGetLBDetails";
-            this.btnGetLBDetails.Size = new System.Drawing.Size(192, 51);
-            this.btnGetLBDetails.TabIndex = 37;
-            this.btnGetLBDetails.Text = "GET LB Details";
-            this.btnGetLBDetails.UseVisualStyleBackColor = true;
-            this.btnGetLBDetails.Click += new System.EventHandler(this.btnGetLBDetails_Click);
-            // 
-            // btnDeleteLB
-            // 
-            this.btnDeleteLB.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btnDeleteLB.Location = new System.Drawing.Point(1149, 66);
-            this.btnDeleteLB.Margin = new System.Windows.Forms.Padding(4);
-            this.btnDeleteLB.Name = "btnDeleteLB";
-            this.btnDeleteLB.Size = new System.Drawing.Size(192, 51);
-            this.btnDeleteLB.TabIndex = 38;
-            this.btnDeleteLB.Text = "Delete LB";
-            this.btnDeleteLB.UseVisualStyleBackColor = true;
-            this.btnDeleteLB.Click += new System.EventHandler(this.btnDeleteLB_Click);
-            // 
-            // btnDeleteListener
-            // 
-            this.btnDeleteListener.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btnDeleteListener.Location = new System.Drawing.Point(949, 64);
-            this.btnDeleteListener.Margin = new System.Windows.Forms.Padding(4);
-            this.btnDeleteListener.Name = "btnDeleteListener";
-            this.btnDeleteListener.Size = new System.Drawing.Size(192, 51);
-            this.btnDeleteListener.TabIndex = 39;
-            this.btnDeleteListener.Text = "Delete Listener";
-            this.btnDeleteListener.UseVisualStyleBackColor = true;
-            this.btnDeleteListener.Click += new System.EventHandler(this.btnDeleteListener_Click);
-            // 
-            // btnDeletePool
-            // 
-            this.btnDeletePool.Font = new System.Drawing.Font("Palatino Linotype", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btnDeletePool.Location = new System.Drawing.Point(1149, 125);
-            this.btnDeletePool.Margin = new System.Windows.Forms.Padding(4);
-            this.btnDeletePool.Name = "btnDeletePool";
-            this.btnDeletePool.Size = new System.Drawing.Size(192, 51);
-            this.btnDeletePool.TabIndex = 40;
-            this.btnDeletePool.Text = "Delete Pool";
-            this.btnDeletePool.UseVisualStyleBackColor = true;
-            this.btnDeletePool.Click += new System.EventHandler(this.btnDeletePool_Click);
             // 
             // Form1
             // 
@@ -1198,10 +1432,14 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtFlavorId;
-        private System.Windows.Forms.TextBox txtNetId;
-        private System.Windows.Forms.TextBox txtPoolId;
-        private System.Windows.Forms.TextBox txtImageId;
+        private System.Windows.Forms.Label label34Instance;
+        private System.Windows.Forms.ComboBox txtFlavorId;
+        private System.Windows.Forms.ComboBox txtNetId;
+        private System.Windows.Forms.ComboBox txtPoolId;
+        private System.Windows.Forms.ComboBox txtImageId;
+        private System.Windows.Forms.ComboBox txtInstanceId;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.ComboBox txtKeyPair;
         private System.Windows.Forms.TextBox txtVmName;
         private System.Windows.Forms.Button btnScaleDown;
         private System.Windows.Forms.Button btnScaleUp;
@@ -1211,8 +1449,9 @@
         private System.Windows.Forms.Button btnAssignFip;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox txtTargetId;
-        private System.Windows.Forms.TextBox txtPortId;
+        private System.Windows.Forms.ComboBox txtTargetId;
+        private System.Windows.Forms.ComboBox txtPortId;
+        private System.Windows.Forms.ComboBox txtNetworkId;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Button btnGetRouters;
@@ -1222,12 +1461,14 @@
         private System.Windows.Forms.Button btnGetInstances;
         private System.Windows.Forms.TabPage tabPage6;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label36;
         private System.Windows.Forms.TextBox txtPoolPort;
-        private System.Windows.Forms.TextBox txtPoolProtocol;
+        private System.Windows.Forms.ComboBox txtPoolProtocol;
         private System.Windows.Forms.TextBox txtPoolName;
         private System.Windows.Forms.TextBox txtListenerPort;
-        private System.Windows.Forms.TextBox txtListenerProtocol;
-        private System.Windows.Forms.TextBox txtLBSubnetId;
+        private System.Windows.Forms.ComboBox txtListenerProtocol;
+        private System.Windows.Forms.ComboBox txtLBSubnetId;
+        private System.Windows.Forms.ComboBox txtExternalNetworkId;
         private System.Windows.Forms.TextBox txtLBName;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Label label18;
@@ -1240,10 +1481,10 @@
         private System.Windows.Forms.Button btnCreateListener;
         private System.Windows.Forms.Button btnCreatePool;
         private System.Windows.Forms.Button btnCreateLB;
-        private System.Windows.Forms.TextBox txtLBId;
+        private System.Windows.Forms.ComboBox txtLBId;
         private System.Windows.Forms.TextBox txtListenerName;
-        private System.Windows.Forms.TextBox txtListenerId;
-        private System.Windows.Forms.TextBox txtHealthCheckType;
+        private System.Windows.Forms.ComboBox txtListenerId;
+        private System.Windows.Forms.ComboBox txtHealthCheckType;
         private System.Windows.Forms.TextBox txtHealthCheckRetries;
         private System.Windows.Forms.TextBox txtHealthCheckTimeout;
         private System.Windows.Forms.TextBox txtHealthCheckDelay;
@@ -1253,18 +1494,31 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TextBox txtVolumeSize;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label29Net;
+        private System.Windows.Forms.Label label30Net;
+        private System.Windows.Forms.Label label31Net;
+        private System.Windows.Forms.Label label32Net;
         private System.Windows.Forms.Button butgetPortPC;
-        private System.Windows.Forms.TextBox txtidInterface;
+        private System.Windows.Forms.ComboBox txtidInterface;
+        private System.Windows.Forms.TextBox txtNetworkName;
+        private System.Windows.Forms.TextBox txtRouterName;
+        private System.Windows.Forms.TextBox txtSubnetName;
+        private System.Windows.Forms.TextBox txtCidr;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnAssignFloatingIpLB;
         private System.Windows.Forms.Button btnGetLBDetails;
         private System.Windows.Forms.Button btnDeleteLB;
         private System.Windows.Forms.Button btnDeleteListener;
         private System.Windows.Forms.Button btnDeletePool;
+        private System.Windows.Forms.TextBox txtMemberId;
+        private System.Windows.Forms.ComboBox txtLbPoolId;
+        private System.Windows.Forms.Label label33Net;
     }
 }
 

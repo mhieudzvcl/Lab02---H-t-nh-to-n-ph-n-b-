@@ -111,7 +111,8 @@ public class OpenStackClient
                 network_id = networkId,
                 name = subnetName,
                 ip_version = 4,
-                cidr = cidr
+                cidr = cidr,
+                dns_nameservers = new[] { "8.8.8.8", "1.1.1.1" }
             }
         };
 
@@ -181,6 +182,13 @@ public class OpenStackClient
         return response.IsSuccessStatusCode ? "Xóa Máy ảo thành công" : "Lỗi xóa Máy ảo";
     }
 
+    public async Task<string> GetKeyPairsAsync()
+    {
+        SetAuthHeader();
+        var response = await _httpClient.GetAsync("https://cloud-compute.uitiot.vn/v2.1/os-keypairs");
+        return await response.Content.ReadAsStringAsync();
+    }
+
     private void SetAuthHeader()
     {
         _httpClient.DefaultRequestHeaders.Remove("X-Auth-Token");
@@ -188,17 +196,32 @@ public class OpenStackClient
     }
 
     //TẠO MÁY ẢO & WEB SERVER
-    public async Task<string> CreateInstanceWithWebAsync(string vmName, string imageId, string flavorId, string networkId, int volumeSize = 4)
+    public async Task<string> CreateInstanceWithWebAsync(string vmName, string imageId, string flavorId, string networkId, string keyPairName = null, int volumeSize = 4)
     {
         SetAuthHeader();
 
         // Script tự động cập nhật, cài Apache và in ra trang web chứa IP của máy
         string bashScript = @"#!/bin/bash
-                            apt-get update
-                            apt-get install -y apache2
-                            IP=$(hostname -I | awk '{print $1}')
-                            echo ""<h1>Nhom 04 - Dia chi IP cua toi la: $IP</h1>"" > /var/www/html/index.html
-                            systemctl restart apache2";
+set -eux
+exec > >(tee /var/log/nhom04-init.log) 2>&1
+
+sleep 10
+resolvectl dns ens3 8.8.8.8 1.1.1.1 || true
+resolvectl domain ens3 '~.' || true
+printf 'nameserver 8.8.8.8\nnameserver 1.1.1.1\n' > /etc/resolv.conf || true
+
+apt-get update
+DEBIAN_FRONTEND=noninteractive apt-get install -y apache2 curl
+systemctl enable apache2
+
+IP=$(hostname -I | awk '{print $1}')
+cat > /var/www/html/index.html <<EOF
+<h1>Nhom 04 - Dia chi IP cua toi la: $IP</h1>
+EOF
+
+systemctl restart apache2
+systemctl status apache2 --no-pager || true
+curl -I http://127.0.0.1 || true";
 
         string userDataBase64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(bashScript));
 
@@ -209,6 +232,7 @@ public class OpenStackClient
                 name = vmName,
                 imageRef = imageId,
                 flavorRef = flavorId,
+                key_name = string.IsNullOrWhiteSpace(keyPairName) ? null : keyPairName,
                 networks = new[] { new { uuid = networkId } },
                 user_data = userDataBase64,
                 security_groups = new[] { new { name = "default" } }, // Đảm bảo dùng Security Group mặc định
@@ -250,7 +274,7 @@ public class OpenStackClient
     }
 
     //LOAD BALANCER SCALING
-    public async Task<string> AddMemberToLoadBalancerPoolAsync(string poolId, string vmIpAddress, string subnetId)
+    public async Task<string> AddMemberToLoadBalancerPoolAsync(string poolId, string vmIpAddress, string subnetId, int protocolPort = 80)
     {
         SetAuthHeader();
 
@@ -259,7 +283,7 @@ public class OpenStackClient
             member = new 
             {
                 address = vmIpAddress,      // IP nội bộ của máy ảo vừa tạo
-                protocol_port = 80,         // Port chạy Web
+                protocol_port = protocolPort,// Port chạy Web
                 subnet_id = subnetId,
                 admin_state_up = true
             }
@@ -411,6 +435,20 @@ public class OpenStackClient
     {
         SetAuthHeader();
         var response = await _httpClient.GetAsync("https://cloud-loadbalancer.uitiot.vn/v2.0/lbaas/loadbalancers");
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    public async Task<string> GetPoolsAsync()
+    {
+        SetAuthHeader();
+        var response = await _httpClient.GetAsync("https://cloud-loadbalancer.uitiot.vn/v2.0/lbaas/pools");
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    public async Task<string> GetListenersAsync()
+    {
+        SetAuthHeader();
+        var response = await _httpClient.GetAsync("https://cloud-loadbalancer.uitiot.vn/v2.0/lbaas/listeners");
         return await response.Content.ReadAsStringAsync();
     }
 
